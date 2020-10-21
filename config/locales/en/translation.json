@@ -1,0 +1,24 @@
+{
+  "errors": {
+    "bad_request": "Bad Request",
+    "internal_server_error": "Internal Server Error",
+    "not_found": "Not found",
+    "unauthorized": "Unauthorized"
+  },
+  "validations": {
+    "admin_username_e_required": "Username is required",
+    "admin_username_e_unique": "Username is duplicated",
+    "admin_email_e_required": "Email is required",
+    "admin_email_e_unique": "Email is duplicated",
+    "admin_password_e_required": "Password is required",
+    "admin_firstname_e_required": "Firstname is required",
+    "admin_firstname_e_maxlength": "Firstname's maxlength is 50 characters",
+    "admin_firstname_e_minlength": "Firstname's minlength is 3 characters",
+    "admin_lastname_e_maxlength": "Lastname's maxlength is 50 characters",
+    "admin_lastname_e_minlength": "Lastname's minlength is 3 characters",
+    "admin_lastname_e_required": "Lastname is required"
+  },
+  "messages": {
+    "success": "Success"
+  }
+}
