@@ -39,6 +39,11 @@ module.exports = {
       return exits.success({ errors });
     }
     const record = await Admin.create(data).fetch();
+    // update search Index
+    await sails.helpers.shared.updateSearchIndex.with({
+      record,
+      collection: 'admin',
+    });
     return exits.success({ data: record });
   },
 };

@@ -46,6 +46,7 @@ module.exports = {
       minLength: 3,
       maxLength: 50,
     },
+    // Search Index
     s: {
       type: 'string',
       required: false,
@@ -80,6 +81,6 @@ module.exports = {
 
   customToJSON: function () {
     // Return a shallow copy of this record with the password and ssn removed.
-    return _.omit(this, ['password']);
+    return _.omit(this, ['password', 's']);
   },
 };

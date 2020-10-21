@@ -18,7 +18,11 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     const { modelList } = sails.helpers.shared;
-    const data = await modelList.with({ model: Admin, req: inputs.req });
+    const data = await modelList.with({
+      model: Admin,
+      req: inputs.req,
+      // omits: ['email'],
+    });
     return exits.success({ data });
   },
 };

@@ -41,6 +41,11 @@ module.exports = {
     }
     const { id, ...values } = data;
     const record = await Admin.updateOne({ id }).set(values);
+    // update search Index
+    await sails.helpers.shared.updateSearchIndex.with({
+      record,
+      collection: 'admin',
+    });
     return exits.success({ data: record });
   },
 };

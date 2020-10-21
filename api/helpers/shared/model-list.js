@@ -13,6 +13,11 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    omits: {
+      type: 'ref',
+      required: false,
+      defaultsTo: ['s'],
+    },
   },
 
   exits: {
@@ -22,7 +27,7 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    const { model, req } = inputs;
+    const { model, req, omits } = inputs;
     const where = req.param('filter', [])[0];
     const number = Math.max(parseInt(req.param('page', 1)), 1);
     const size = Math.min(Math.max(parseInt(req.param('size', 10)), 1), 50);
@@ -32,6 +37,11 @@ module.exports = {
       let sortField = {};
       sortField[`${k}`] = sortInput[k];
       sort.push(sortField);
+    }
+    // append search index
+    const { indexField } = sails.config.search;
+    if (_.keys(where).includes(indexField) && where[indexField] !== '') {
+      where[`${indexField}`] = { contains: where[indexField] };
     }
     // transform sort to array
     // const associations = req.param('associations', []);
@@ -45,6 +55,11 @@ module.exports = {
     const skip = (number - 1) * size;
     const limit = size;
     const criteria = { where, sort, limit, skip };
+    const select = _.keys(model.attributes).filter(
+      (attr) => ![...omits, indexField].includes(attr),
+    );
+    criteria[`select`] = select;
+
     // build
     const elements = await model
       .find(criteria)

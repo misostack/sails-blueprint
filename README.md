@@ -8,8 +8,9 @@
 4. [x] Response: CRUD, Errors
 5. [x] Resolver
 6. [x] Model/Entity
-7. [ ] Search & Pagination
-8. [ ] I18n
+7. [x] Search & Pagination
+8. [x] I18n
+9. [x] Search Index
 
 ## Common commands
 
@@ -32,7 +33,7 @@ DELETE /resources/:id - DELETE - 204/404
 ```bash
 curl -X POST http://localhost:1337/admins -H "Content-Type: application/json"  --data '{"username": "sonnm","password":"13456", "email":"sonnm@yopmail.com", "firstName": "Son", "lastName": "Nguyen"}' -v
 
-curl -X PATCH http://localhost:1337/admins/b46f5680-3dd5-4623-a7fd-f383a4cb2680 -H "Content-Type: application/json"  --data '{"username": "sonnm","password":"123456"}' -v
+curl -X PATCH http://localhost:1337/admins/98f1fa64-dfe1-4443-b0b3-bae8f6d8b284 -H "Content-Type: application/json" --data '{"firstName": "Son","lastName":"Lee Minh"}' -v
 
 curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2 -H "Content-Type: application/json" -v
 ```
@@ -114,6 +115,6 @@ curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2
 
 3. Filter & Sort & Pagination
 
-> http://localhost:1337/admins?size=1&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][firstname][contains]=son
+> http://localhost:1337/admins?size=3&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active
 
-> http://localhost:1337/admins?size=1&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active
+> http://localhost:1337/admins?size=3&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active&filter[][s]=son%20nguyen

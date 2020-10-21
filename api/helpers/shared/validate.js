@@ -84,7 +84,7 @@ module.exports = {
       _.concat(omit, ['createdAt', 'updatedAt']),
     );
 
-    let validateAttributes = Object.keys(attributes)
+    let validateAttributes = _.keys(attributes)
       .filter((field) => (fields ? fields.includes(field) : true))
       .map((field) =>
         validateField(model, data, field, data[field] || '', validators),
