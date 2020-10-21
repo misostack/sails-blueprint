@@ -28,7 +28,7 @@ PATCH /resources/:id - UPDATE - 200/404
 DELETE /resources/:id - DELETE - 204/404
 ```
 
-1. Success
+### 1.Success
 
 ```bash
 curl -X POST http://localhost:1337/admins -H "Content-Type: application/json"  --data '{"username": "sonnm","password":"13456", "email":"sonnm@yopmail.com", "firstName": "Son", "lastName": "Nguyen"}' -v
@@ -81,7 +81,7 @@ curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2
 
 ```
 
-2. Validation Error
+### 2.Validation Error
 
 ```json
 // 400 - Bad Request
@@ -113,8 +113,93 @@ curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2
 }
 ```
 
-3. Filter & Sort & Pagination
+### 3.Filter & Sort & Pagination
 
 > http://localhost:1337/admins?size=3&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active
 
 > http://localhost:1337/admins?size=3&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active&filter[][s]=son%20nguyen
+
+> http://localhost:1337/admins?size=3&page=1&sort[][email]=asc&sort[][firstname]=desc&filter[][status]=active&filter[][s]=son%20nguyen&filter[][createdat][%3E]=1603271110000
+
+| QueryParam | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| **filter** | filter params. Eg: filter[][field][operator]=[value] |
+| **size**   | items per page - default = 10 - max : 50             |
+| **page**   | Current Page - default = 1                           |
+| **sort**   | Sort params. Eg: sort[][field]=asc/desc              |
+
+#### Operators
+
+| Operator        | Description                                                                                                           |
+| --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **contains**    | String value like a variable (eg. filter[][field][contains]=value)                                                    |
+| **comparision** | '<','<=', '>', '>=' (eg. filter[][field][>=]=value)                                                                   |
+| **eq**          | Means different from a variable, use any value like number or string (eg. [=4)                                        |
+| **in**          | In an array of value, use any value like number or string (eg. [fullName][in][]=selena&[fullName][in][]=justin)       |
+| **nin**         | Not In an array of value, use any value like number or string (eg. [fullName][nin][]=selena&[fullName][nin][]=justin) |
+| **before**      | Start with a string, use any value like number or string (eg. [fullName][before]=selena)                              |
+| **after**       | End with a string, use any value like number or string (eg. [fullName][after]=gomez)                                  |
+
+#### Index Search
+
+> filters[][s]=[value]
+
+Eg: **User Collection** had created search index with {firstName lastName}. When index search filter applied <==> **s** contains [value]
+
+The **s** = {firstName.lowerCase() + ' ' + lastName.lowerCase()}
+
+#### Sample Response
+
+```json
+{
+  "message": "Success",
+  "status": 200,
+  "data": {
+    "page": {
+      "size": 3,
+      "totalElements": 4,
+      "totalPages": 2,
+      "number": 1
+    },
+    "filter": {
+      "status": "active",
+      "s": {
+        "contains": "son nguyen"
+      },
+      "createdAt": {
+        ">": "1603179724001"
+      }
+    },
+    "admins": [
+      {
+        "createdAt": 1603179849217,
+        "updatedAt": 1603268579089,
+        "id": "dd4dde52-b83c-49f8-a6c6-a8c13a5b907f",
+        "username": "sonn0023",
+        "email": "sonnm0023yopmail.com",
+        "status": "active",
+        "firstName": "SOn",
+        "lastName": "Nguyen Minh"
+      },
+      {
+        "createdAt": 1603179814828,
+        "updatedAt": 1603268579080,
+        "id": "c4980c2a-6ec1-4b03-b100-a0f36cce5aed",
+        "username": "sonn002",
+        "email": "sonnm002@yopmail.com",
+        "status": "active",
+        "firstName": "SOn",
+        "lastName": "Nguyen Minh"
+      },
+      {
+        "createdAt": 1603179902051,
+        "updatedAt": 1603268579100,
+        "id": "dd190d0e-8ef2-4c2a-9abc-2964190be939",
+        "username": "sonn003",
+        "email": "sonnm003opmail.com",
+        "status": "active",
+        "firstName": "SOn",
+        "lastName": "Nguyen Minh"
+      }
+    ]
+```
