@@ -68,7 +68,8 @@ module.exports = {
     },
     validators: {
       type: 'ref',
-      required: true,
+      required: false,
+      defaultsTo: false,
     },
     skipMissingProperties: {
       type: 'boolean',

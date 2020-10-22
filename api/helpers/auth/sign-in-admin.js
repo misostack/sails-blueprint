@@ -1,15 +1,41 @@
 const validateSignInAdmin = async (req) => {
   let payload = req.body;
+  const { validateSchema } = sails.helpers.shared;
   const { errors, data } = await validateSchema.with({
     collectionName: 'admin',
     schemaName: 'signInAdmin',
     data: payload,
-    validators: {
-      email: [validateIsUnique],
-      password: [validateIsUnique],
-    },
   });
-  return { errors, data, code: 401 };
+  if (errors) {
+    return {
+      errors,
+      data,
+    };
+  }
+  // generic validations
+  const admin = await Admin.findOne({
+    email: data.email,
+  });
+  if (!admin) {
+    return {
+      errorCode: 401,
+      message: 'errors_admin_auth_signin_bad_credentials',
+    };
+  }
+  // compare
+  const isPasswordMatch = await Admin.comparePassword(
+    data.password,
+    admin.password,
+  );
+  if (!isPasswordMatch) {
+    return {
+      errorCode: 401,
+      message: 'errors_admin_auth_signin_bad_credentials',
+    };
+  }
+  return {
+    admin,
+  };
 };
 
 module.exports = {
@@ -32,16 +58,14 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     // TODO
-    const { errors, data, code } = await validateSignInAdmin(inputs.req);
-    if (!_.isEmpty(errors)) {
-      return exits.success({ errors, code });
+    const { errors, errorCode, message, admin } = await validateSignInAdmin(
+      inputs.req,
+    );
+    if (errorCode) {
+      return exits.success({ errors, code: errorCode, message });
     }
-    const record = await Admin.create(data).fetch();
-    // update search Index
-    await sails.helpers.shared.updateSearchIndex.with({
-      record,
-      collection: 'admin',
-    });
-    return exits.success({ data: record });
+    // const record = await Admin.create(data).fetch();
+
+    return exits.success({ data: admin });
   },
 };

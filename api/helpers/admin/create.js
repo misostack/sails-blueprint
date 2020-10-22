@@ -34,7 +34,7 @@ module.exports = {
     // TODO
     const { errors, data } = await validateCreateDTO(inputs.req);
     if (!_.isEmpty(errors)) {
-      return exits.success({ errors, code: 400 });
+      return exits.success({ errors });
     }
     const record = await Admin.create(data).fetch();
     // update search Index
@@ -42,6 +42,6 @@ module.exports = {
       record,
       collection: 'admin',
     });
-    return exits.success({ data: record });
+    return exits.success({ data: record, code: 201 });
   },
 };

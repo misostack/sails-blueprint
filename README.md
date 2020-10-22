@@ -302,3 +302,7 @@ The **s** = {firstName.lowerCase() + ' ' + lastName.lowerCase()}
 - Use **X-LANG** in header or query string **lng**
 
 > curl -X PATCH http://localhost:1337/admins/98f1fa64-dfe1-4443-b0b3-bae8f6d8b284 -H "X-LANG: vn" --data '{"firstName": "Son","lastName":"Lee Minh"}
+
+### 5.Auth
+
+> curl -X POST http://localhost:1337/admin/auth/sign-in -H "Content-Type: application/json" --data '{"email": "sonnm@yopmail.com", "password": "123456"}'

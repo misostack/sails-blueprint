@@ -4,11 +4,13 @@
   "errors_internal_server_error": "Internal Server Error",
   "errors_not_found": "Not found",
   "errors_unauthorized": "Unauthorized",
+  "errors_validations": "Validation failed",
   "errors_validations_admin_username_e_required": "User name is required",
   "errors_validations_admin_firstname_e_required": "Firstname is required",
   "errors_validations_admin_lastname_e_required": "Lastname is required",
   "errors_validations_admin_email_e_required": "Email is required",
   "errors_validations_admin_password_e_required": "Password is required",
   "errors_validations_admin_username_e_unique": "Username is duplicated",
-  "errors_validations_admin_email_e_unique": "Email is duplicated"
+  "errors_validations_admin_email_e_unique": "Email is duplicated",
+  "errors_admin_auth_signin_bad_credentials": "Bad credentials"
 }

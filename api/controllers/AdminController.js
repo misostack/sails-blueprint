@@ -9,10 +9,10 @@ const callActions = async (req, res, action) => {
   try {
     //     req.i18n.reloadResources();
     const { data, errors, code } = await sails.helpers.admin[`${action}`](req);
-    if (errors) {
-      return res.badRequest({ errors });
+    if (errors && (!code || code === 400)) {
+      return res.badRequest({ errors, message: 'errors_validations' });
     }
-    if (action === 'create') {
+    if (code === 201) {
       return res.createSuccess({ data });
     }
     // default

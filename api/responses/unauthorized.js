@@ -26,7 +26,7 @@
  * ```
  */
 
-module.exports = function notFound(optionalData) {
+module.exports = function unauthorized(optionalData) {
   // Get access to `req` and `res`
   var req = this.req;
   var res = this.res;
@@ -34,8 +34,13 @@ module.exports = function notFound(optionalData) {
   // Define the status code to send in the response.
   var statusCodeToSet = 401;
 
-  return res.status(statusCodeToSet).send({
+  const responseData = {
     message: req.t('errors_unauthorized'),
     status: statusCodeToSet,
-  });
+  };
+  if (optionalData && optionalData.message) {
+    responseData.message = req.t(optionalData.message);
+  }
+
+  return res.status(statusCodeToSet).send(responseData);
 };

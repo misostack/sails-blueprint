@@ -81,6 +81,12 @@ module.exports = {
       password: Joi.string().required(),
     },
   },
+  comparePassword: (candidatePassword, password) => {
+    return sails.helpers.shared.hashPasswordCompare.with({
+      candidatePassword,
+      password,
+    });
+  },
 
   beforeCreate: async (valuesToSet, proceed) => {
     valuesToSet.id = uuid.v4();
