@@ -1,4 +1,5 @@
 {
+  "messages_success": "Success",
   "errors_bad_request": "Bad Request",
   "errors_internal_server_error": "Internal Server Error",
   "errors_not_found": "Not found",
