@@ -135,3 +135,5 @@ lib-cov
 yarn.lock
 package-lock.json
 layout.ejs
+
+config/locales/**/*.missing.json

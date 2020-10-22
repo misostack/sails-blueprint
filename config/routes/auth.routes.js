@@ -7,5 +7,5 @@ module.exports = {
   'post /auth/reset-password': 'Auth/resetPassword',
   'post /auth/refresh-token': 'Auth/refreshToken',
   // admins
-  'post /admin/auth': 'Auth/signIn',
+  'post /admin/auth': 'Auth/signInAdmin',
 };

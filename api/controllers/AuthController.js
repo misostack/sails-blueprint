@@ -19,7 +19,7 @@ const callActions = async (req, res, action) => {
   }
 };
 module.exports = {
-  signIn: async function (req, res) {
-    return callActions(req, res, 'signIn');
+  signInAdmin: async function (req, res) {
+    return callActions(req, res, 'signInAdmin');
   },
 };

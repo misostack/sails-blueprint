@@ -1,23 +1,21 @@
-const validateUpdateDTO = async (req) => {
-  const { validateSchema, validateIsUnique } = sails.helpers.shared;
+const validateSignInAdmin = async (req) => {
   let payload = req.body;
-  payload.id = req.param('id');
   const { errors, data } = await validateSchema.with({
     collectionName: 'admin',
-    schemaName: 'updateDTO',
+    schemaName: 'signInAdmin',
     data: payload,
-    skipMissingProperties: true,
     validators: {
       email: [validateIsUnique],
-      username: [validateIsUnique],
+      password: [validateIsUnique],
     },
   });
-  return { errors, data };
+  return { errors, data, code: 401 };
 };
-module.exports = {
-  friendlyName: 'Update',
 
-  description: 'Update admin.',
+module.exports = {
+  friendlyName: 'Sign In Admin',
+
+  description: 'Sign In Admin',
 
   inputs: {
     req: {
@@ -34,12 +32,11 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     // TODO
-    const { errors, data } = await validateUpdateDTO(inputs.req);
+    const { errors, data, code } = await validateSignInAdmin(inputs.req);
     if (!_.isEmpty(errors)) {
-      return exits.success({ errors, code: 400 });
+      return exits.success({ errors, code });
     }
-    const { id, ...values } = data;
-    const record = await Admin.updateOne({ id }).set(values);
+    const record = await Admin.create(data).fetch();
     // update search Index
     await sails.helpers.shared.updateSearchIndex.with({
       record,

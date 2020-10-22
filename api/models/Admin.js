@@ -75,6 +75,12 @@ module.exports = {
       status: Joi.string().valid('active', 'inactive'),
     },
   },
+  signInAdmin: {
+    fields: {
+      email: Joi.string().required(),
+      password: Joi.string().required(),
+    },
+  },
 
   beforeCreate: async (valuesToSet, proceed) => {
     valuesToSet.id = uuid.v4();
