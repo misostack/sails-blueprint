@@ -67,12 +67,12 @@ module.exports = function badRequest(optionalData) {
     for (let i in optionalData.errors || []) {
       let error = optionalData.errors[i];
       errors.push({
-        field: error.field,
-        message: req.t(error.message),
+        message: req.t(`errors_validations_${error.code}`),
+        ...error,
       });
     }
     return res.status(statusCodeToSet).send({
-      message: req.t('errors.bad_request'),
+      message: req.t('errors_bad_request'),
       status: statusCodeToSet,
       errors,
     });

@@ -35,7 +35,7 @@ module.exports = function notFound(optionalData) {
   var statusCodeToSet = 401;
 
   return res.status(statusCodeToSet).send({
-    message: req.t('errors.unauthorized'),
+    message: req.t('errors_unauthorized'),
     status: statusCodeToSet,
   });
 };

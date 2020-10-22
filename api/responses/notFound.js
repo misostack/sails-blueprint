@@ -35,7 +35,7 @@ module.exports = function notFound(optionalData) {
   var statusCodeToSet = 404;
 
   return res.status(statusCodeToSet).send({
-    message: req.t('errors.not_found'),
+    message: req.t('errors_not_found'),
     status: statusCodeToSet,
   });
 };

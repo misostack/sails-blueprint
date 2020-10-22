@@ -1,19 +1,18 @@
-const validateCreateDTO = async (req) => {
-  const { validate, validateIsUnique } = sails.helpers.shared;
-  let data = req.body;
-  data.id = req.param('id');
-  const errors = await validate.with({
-    data,
-    model: Admin,
-    fields: _.keys(data), //: fields to validate - leave empty to allow validate all
-    omit: [], //: fields to be ignore from user input
+const validateUpdateDTO = async (req) => {
+  const { validateSchema, validateIsUnique } = sails.helpers.shared;
+  let payload = req.body;
+  payload.id = req.param('id');
+  const { errors, data } = await validateSchema.with({
+    collectionName: 'admin',
+    schemaName: 'updateDTO',
+    data: payload,
+    skipMissingProperties: true,
     validators: {
       email: [validateIsUnique],
       username: [validateIsUnique],
     },
   });
-  // transform payload in case needed
-  return { data, errors };
+  return { errors, data };
 };
 module.exports = {
   friendlyName: 'Update',
@@ -35,7 +34,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     // TODO
-    const { errors, data } = await validateCreateDTO(inputs.req);
+    const { errors, data } = await validateUpdateDTO(inputs.req);
     if (!_.isEmpty(errors)) {
       return exits.success({ errors });
     }

@@ -36,7 +36,7 @@ module.exports = function success(optionalData) {
 
   const { message, data } = optionalData;
   return res.status(statusCodeToSet).send({
-    message: req.t(message || 'messages.success'),
+    message: req.t(message || 'messages_success'),
     status: statusCodeToSet,
     data,
   });

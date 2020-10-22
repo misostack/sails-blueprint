@@ -91,11 +91,102 @@ curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2
   "errors": [
     {
       "field": "username",
-      "message": "Username is duplicated"
+      "name": "any.required",
+      "code": "admin_username_e_required",
+      "context": {
+        "label": "username",
+        "key": "username"
+      }
+    },
+    {
+      "field": "firstName",
+      "name": "any.required",
+      "code": "admin_firstname_e_required",
+      "context": {
+        "label": "firstName",
+        "key": "firstName"
+      }
+    },
+    {
+      "field": "lastName",
+      "name": "any.required",
+      "code": "admin_lastname_e_required",
+      "context": {
+        "label": "lastName",
+        "key": "lastName"
+      }
     },
     {
       "field": "email",
-      "message": "Email is duplicated"
+      "name": "any.required",
+      "code": "admin_email_e_required",
+      "context": {
+        "label": "email",
+        "key": "email"
+      }
+    },
+    {
+      "field": "password",
+      "name": "any.required",
+      "code": "admin_password_e_required",
+      "context": {
+        "label": "password",
+        "key": "password"
+      }
+    },
+    {
+      "message": "User name is required",
+      "field": "username",
+      "name": "any.required",
+      "code": "admin_username_e_required",
+      "context": {
+        "label": "username",
+        "key": "username"
+      }
+    },
+    {
+      "message": "Firstname is required",
+      "field": "firstName",
+      "name": "any.required",
+      "code": "admin_firstname_e_required",
+      "context": {
+        "label": "firstName",
+        "key": "firstName"
+      }
+    },
+    {
+      "message": "Lastname is required",
+      "field": "lastName",
+      "name": "any.required",
+      "code": "admin_lastname_e_required",
+      "context": {
+        "label": "lastName",
+        "key": "lastName"
+      }
+    },
+    {
+      "message": "Email is required",
+      "field": "email",
+      "name": "any.required",
+      "code": "admin_email_e_required",
+      "context": {
+        "label": "email",
+        "key": "email"
+      }
+    },
+    {
+      "message": "Password is required",
+      "field": "password",
+      "name": "string.min",
+      "code": "admin_password_e_min",
+      "context": {
+        limit: 6,
+        value: '123',
+        encoding: undefined,
+        label: 'password',
+        key: 'password'
+      }
+
     }
   ]
 }

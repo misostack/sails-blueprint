@@ -1,16 +1,26 @@
-const validateCreateDTO = async (req) => {
-  const { validateSchema, validateIsUnique } = sails.helpers.shared;
-  let payload = req.body;
-  const { errors, data } = await validateSchema.with({
-    collectionName: 'admin',
-    schemaName: 'createDTO',
-    data: payload,
-    validators: {
-      email: [validateIsUnique],
-      username: [validateIsUnique],
+const validateSignInDTO = async (req) => {
+  const { validate, validateIsUnique } = sails.helpers.shared;
+  let data = req.body;
+  const errors = await validate.with({
+    data,
+    model: {
+      attributes: {
+        email: {
+          type: 'string',
+          required: true,
+        },
+        password: {
+          type: 'string',
+          required: true,
+        },
+      },
     },
+    // fields: [] : fields to validate - leave empty to allow validate all
+    // omit: ['id'] : fields to be ignore from user input
+    validators: {},
   });
-  return { errors, data };
+  // transform payload in case needed
+  return { data, errors };
 };
 module.exports = {
   friendlyName: 'Create',

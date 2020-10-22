@@ -36,6 +36,7 @@ module.exports = {
   fn: async function (inputs) {
     // TODO
     // eslint-disable-next-line no-unused-vars
+    const type = 'unique';
     const { model, data, field, value, id } = inputs;
     let criteria = {
       where: {},
@@ -50,6 +51,14 @@ module.exports = {
     if (existedRecord.length === 0) {
       return false;
     }
-    return { name: 'validate_is_unique', code: `e_unique` };
+    return {
+      field,
+      type,
+      code: _.toLower(`${model.identity}_${field}_e_${type}`),
+      context: {
+        label: field,
+        key: field,
+      },
+    };
   },
 };

@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const Joi = require('joi');
 /**
  * Admin.js
  *
@@ -37,14 +38,10 @@ module.exports = {
     firstName: {
       type: 'string',
       required: true,
-      minLength: 3,
-      maxLength: 50,
     },
     lastName: {
       type: 'string',
       required: true,
-      minLength: 3,
-      maxLength: 50,
     },
     // Search Index
     s: {
@@ -58,6 +55,25 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+  },
+  createDTO: {
+    fields: {
+      username: Joi.string().required(),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      email: Joi.string().required(),
+      password: Joi.string().required(),
+    },
+  },
+  updateDTO: {
+    fields: {
+      username: Joi.string().required(),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      email: Joi.string().required(),
+      password: Joi.string().required(),
+      status: Joi.string().valid('active', 'inactive'),
+    },
   },
 
   beforeCreate: async (valuesToSet, proceed) => {

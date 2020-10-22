@@ -1,30 +1,4 @@
-/**
- * internalServerError.js
- *
- * A custom response.
- *
- * Example usage:
- * ```
- *     return res.internalServerError();
- *     // -or-
- *     return res.internalServerError(optionalData);
- * ```
- *
- * Or with actions2:
- * ```
- *     exits: {
- *       somethingHappened: {
- *         responseType: 'internalServerError'
- *       }
- *     }
- * ```
- *
- * ```
- *     throw 'somethingHappened';
- *     // -or-
- *     throw { somethingHappened: optionalData }
- * ```
- */
+const util = require('util');
 
 module.exports = function internalServerError(optionalData) {
   // Get access to `req` and `res`
@@ -44,26 +18,21 @@ module.exports = function internalServerError(optionalData) {
   // response body to send.  Otherwise, send down its `.stack`,
   // except in production use res.sendStatus().
   else if (_.isError(optionalData)) {
-    sails.log.info(
-      'Custom response `res.internalServerError()` called with an Error:',
-      optionalData,
-    );
-
+    sails.log.error('[INTERNAL_SERVER_ERROR]', optionalData);
     // If the error doesn't have a custom .toJSON(), use its `stack` instead--
     // otherwise res.json() would turn it into an empty dictionary.
     // (If this is production, don't send a response body at all.)
     if (!_.isFunction(optionalData.toJSON)) {
       if (process.env.NODE_ENV === 'production') {
         return res.status(statusCodeToSet).send({
-          message: req.t('errors.internal_server_error'),
+          message: req.t('errors_internal_server_error'),
           status: statusCodeToSet,
         });
       } else {
-        sails.log.error('[INTERNAL_SERVER_ERROR]', optionalData);
         return res.status(statusCodeToSet).send({
-          message: req.t('errors.internal_server_error'),
+          message: req.t('errors_internal_server_error'),
           status: statusCodeToSet,
-          ...optionalData,
+          stack: util.inspect(optionalData, true, 5),
         });
       }
     }
@@ -71,7 +40,7 @@ module.exports = function internalServerError(optionalData) {
   // Set status code and send response data.
   else {
     return res.status(statusCodeToSet).send({
-      message: req.t('errors.internal_server_error'),
+      message: req.t('errors_internal_server_error'),
       status: statusCodeToSet,
       ...optionalData,
     });
