@@ -1,5 +1,6 @@
 const validateSignInAdmin = async (req) => {
   let payload = req.body;
+  const metadata = { userAgent: req.headers['user-agent'], ip: req.ip };
   const { validateSchema } = sails.helpers.shared;
   const { errors, data } = await validateSchema.with({
     collectionName: 'admin',
@@ -13,10 +14,10 @@ const validateSignInAdmin = async (req) => {
     };
   }
   // generic validations
-  const admin = await Admin.findOne({
+  const user = await Admin.findOne({
     email: data.email,
   });
-  if (!admin) {
+  if (!user) {
     return {
       errorCode: 401,
       message: 'errors_admin_auth_signin_bad_credentials',
@@ -25,7 +26,7 @@ const validateSignInAdmin = async (req) => {
   // compare
   const isPasswordMatch = await Admin.comparePassword(
     data.password,
-    admin.password,
+    user.password,
   );
   if (!isPasswordMatch) {
     return {
@@ -34,7 +35,8 @@ const validateSignInAdmin = async (req) => {
     };
   }
   return {
-    admin,
+    user,
+    metadata,
   };
 };
 
@@ -58,14 +60,23 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     // TODO
-    const { errors, errorCode, message, admin } = await validateSignInAdmin(
-      inputs.req,
-    );
+    const {
+      errors,
+      errorCode,
+      message,
+      user,
+      metadata,
+    } = await validateSignInAdmin(inputs.req);
     if (errorCode) {
       return exits.success({ errors, code: errorCode, message });
     }
     // const record = await Admin.create(data).fetch();
 
-    return exits.success({ data: admin });
+    return exits.success({
+      data: {
+        user,
+        metadata,
+      },
+    });
   },
 };
