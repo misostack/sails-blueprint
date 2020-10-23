@@ -17,6 +17,7 @@ module.exports.policies = {
    ***************************************************************************/
 
   '*': ['detectLanguage'],
+  'Admin/*': ['detectLanguage', 'authGuard'],
   // 'Admin/create': ,
   'Admin/findOne': ['adminResolver'],
   'Admin/updateOne': ['adminResolver'],

@@ -4,6 +4,7 @@
   "errors_internal_server_error": "Internal Server Error",
   "errors_not_found": "Not found",
   "errors_unauthorized": "Unauthorized",
+  "errors_forbidden": "errors_forbidden",
   "errors_validations": "Validation failed",
   "errors_validations_admin_username_e_required": "User name is required",
   "errors_validations_admin_firstname_e_required": "Firstname is required",
