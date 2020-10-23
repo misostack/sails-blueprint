@@ -70,12 +70,25 @@ module.exports = {
     if (errorCode) {
       return exits.success({ errors, code: errorCode, message });
     }
+    const { signToken } = sails.helpers.auth;
     // const record = await Admin.create(data).fetch();
+    const accessToken = await signToken.with({
+      uid: user.id,
+      role: 'admin',
+      scope: 'access',
+    });
+    const refreshToken = await signToken.with({
+      uid: user.id,
+      role: 'admin',
+      scope: 'refresh',
+    });
 
     return exits.success({
       data: {
         user,
         metadata,
+        accessToken: accessToken.token,
+        refreshToken: refreshToken.token,
       },
     });
   },
