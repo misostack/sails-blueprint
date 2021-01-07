@@ -1,6 +1,10 @@
 module.exports = async function (req, res, proceed) {
-  const authorizations = req.headers.authorization.split(' ');
-  if (authorizations[0] !== 'Bearer' || authorizations[1].length === 0) {
+  const authorizations = (req.headers.authorization || '').split(' ');
+  if (
+    !authorizations ||
+    authorizations[0] !== 'Bearer' ||
+    authorizations[1].length === 0
+  ) {
     return res.unauthorized();
   }
   // verify token

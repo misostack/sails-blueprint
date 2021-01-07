@@ -1,3 +1,5 @@
+const graphql = require('../api/graphql');
+
 const routesGroups = require('./routes/index');
 let routes = {};
 for (const index in routesGroups) {
@@ -5,6 +7,7 @@ for (const index in routesGroups) {
 }
 const appRoutes = {
   'get /': { view: 'pages/homepage' },
+  '/graphql': graphql,
   ...routes,
 };
 
