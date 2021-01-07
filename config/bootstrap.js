@@ -1,16 +1,46 @@
-/**
- * Seed Function
- * (sails.config.bootstrap)
- *
- * A function that runs just before your Sails app gets lifted.
- * > Need more flexibility?  You can also create a hook.
- *
- * For more information on seeding your app with fake data, check out:
- * https://sailsjs.com/config/bootstrap
- */
+const bodyParser = require('body-parser');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const { makeExecutableSchema } = require('graphql-tools');
 
-module.exports.bootstrap = async function() {
+// Some fake data
+const books = [
+  {
+    title: "Harry Potter and the Sorcerer's stone",
+    author: 'J.K. Rowling',
+  },
+  {
+    title: 'Jurassic Park',
+    author: 'Michael Crichton',
+  },
+];
 
+// The GraphQL schema in string form
+const typeDefs = `
+  type Query { books: [Book] }
+  type Book { title: String, author: String }
+`;
+
+// The resolvers
+const resolvers = {
+  Query: { books: () => books },
+};
+
+// Put together a schema
+const myGraphQLSchema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+module.exports.bootstrap = async function (done) {
+  sails.hooks.http.app.use(
+    '/graphql',
+    bodyParser.json(),
+    graphqlExpress({ schema: myGraphQLSchema }),
+  );
+  sails.hooks.http.app.use(
+    '/graphiql',
+    graphiqlExpress({ endpointURL: '/graphql' }),
+  );
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
@@ -26,5 +56,5 @@ module.exports.bootstrap = async function() {
   //   // etc.
   // ]);
   // ```
-
+  return done();
 };
