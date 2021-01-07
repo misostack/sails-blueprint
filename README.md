@@ -306,3 +306,11 @@ The **s** = {firstName.lowerCase() + ' ' + lastName.lowerCase()}
 ### 5.Auth
 
 > curl -X POST http://localhost:1337/admin/auth/sign-in -H "Content-Type: application/json" --data '{"email": "sonnm@yopmail.com", "password": "123456"}'
+
+## GraphQL
+
+### Refs
+
+- https://graphql.org/learn/
+- https://dev.to/aflatoon2874/how-to-integrate-graphql-with-sailsjs-application-3obh
+- https://hackernoon.com/how-to-connect-sailsjs-with-graphql-guide-jgdm3y7l
