@@ -45,10 +45,6 @@
 #
 ################################################
 
-config/local.js
-config/*.js
-
-
 ################################################
 # Dependencies
 #
@@ -138,3 +134,6 @@ package-lock.json
 layout.ejs
 
 config/locales/**/*.missing.json
+.env
+config/env/*.js
+config/local.js
