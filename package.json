@@ -42,8 +42,5 @@
     "url": "git://github.com/sonnm/api.git"
   },
   "author": "sonnm",
-  "license": "",
-  "engines": {
-    "node": "^12.18"
-  }
+  "license": ""
 }
