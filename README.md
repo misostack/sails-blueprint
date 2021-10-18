@@ -191,6 +191,18 @@ curl -X DELETE http://localhost:1337/admins/3e1e0713-bf9d-4af2-8b23-931c0af3a6c2
   ]
 }
 
+// 401 - Unauthorized error
+{
+  "message": "Unauthorized error",
+  "status": 401
+}
+
+// 403 - Forbidden Error
+{
+  "message": "Forbidden Error",
+  "status": 403
+}
+
 // 404 - Not found
 {
   "message": "Not found",
